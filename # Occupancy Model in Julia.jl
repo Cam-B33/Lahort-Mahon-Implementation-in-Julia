@@ -82,7 +82,21 @@ function loglikf_FPMS(params, mydata, fixpar)
 using Pkg
 Pkg.add("Optim")
 using Optim
+Pkg.add("Random")
+using Random
 
 #Creating fit model function
   function fit_model(mydata, fixpar, nstarts = 10, meanstarts, sdstart = 1, method = NelderMead, dohess = F){
-  })
+ # object to hold estimates from each optimization
+ parshat_m = fixpar
+ theLLvals = repeat(NA, nstarts)
+ #Create an empty list to store complte model output
+    optimres = list()
+    
+    for ii in 1:nstarts{
+        #initilaize given values + noise
+        #randomly sample values from a normal distribution,  with length = meanstarts mean = meanstarts and sd = sdstart
+       n = length(meanstarts)   
+        mystarts = randn(n) .* sdstart .+ meanstarts
+        tmp = Optim.optimize(x -> loglikf_FPMS(x, mydata, fixpar), mystarts, method, autodiff=:forward,
+        theLLvals[ii] = tmp}})
