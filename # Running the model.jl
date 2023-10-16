@@ -3,7 +3,6 @@
 # Include the functions
 include("Occupancy_Model.jl")
 
-
 #Upload the data from CSV field
 
 
