@@ -106,7 +106,7 @@ function get_profCIall(mydata, fixpar, nstarts=10, sdstart=2, method="Nelder-Mea
     
     for ii in 1:6
         if isnan(fixpar[ii]) # this is a parameter for which to calculate the prof loglik
-            for jj in 1:length(theseq)
+            for jj in 1:eachindex(theseq)
                 println(parnames[ii], "=", theseq[jj])
                 fixpar2 = copy(fixpar)
                 fixpar2[ii] = theseq[jj] # fix the parameter to the corresponding value

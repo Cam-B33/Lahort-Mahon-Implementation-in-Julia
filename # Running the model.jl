@@ -1,6 +1,6 @@
 # Running the model
 
-include("Occupancy Model in Julia.jl")
+include("# Occupancy Model in Julia.jl")
 
 ### 2016 eDNA DATA load
 
@@ -30,7 +30,7 @@ fixpar = fill(NaN, 6)
 
 D
 # fit model using 100 random starts - model with lowest likelihood (i.e. theLLvals == 0.00) is final model
-fit_model(mydata, fixpar, nstarts=100, meanstarts, sdstart=1, method="Nelder-Mead", dohess=false)
+fit_model(mydata, fixpar, nstarts=100, meanstarts=[1, 2, 3], sdstart=1, method="Nelder-Mead", dohess=false)
 
 # or fit model using steps of 0.001 and profile likelihood
 profCI = get_profCIall(mydata, fixpar, nstarts=25, sdstart=2, thestep=0.001, method="Nelder-Mead")
