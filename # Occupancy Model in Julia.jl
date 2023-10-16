@@ -49,6 +49,7 @@ function loglikf_FPMS(params, mydata, fixpar)
         r11 = fixpar[6]
     end
     
+    
     # field data component (ambiguous and unambiguous method)
     ND = L - D # number of non detections (ambiguous method)
     tmpZ2_1 = p11^D * (1 - p11)^ND
@@ -77,9 +78,9 @@ function loglikf_FPMS(params, mydata, fixpar)
     loglik = -loglik
 end
 
+# Function Passed Test
 
-
-function fit_model(mydata, fixpar, nstarts=10, meanstarts, sdstart=1, method="Nelder-Mead", dohess=false)
+function fit_model(mydata, fixpar, nstarts=10, meanstarts = [], sdstart=1, method="Nelder-Mead", dohess=false)
     parshat_m = fill(fixpar, (nstarts, 6)) # to hold estimates from each optimization
     theLLvals = fill(NaN, nstarts) # to hold the loglikelihood value from each optimization
     optimres = Vector{Any}(undef, nstarts) # to store complete model output from optim in each optimization
@@ -97,6 +98,8 @@ function fit_model(mydata, fixpar, nstarts=10, meanstarts, sdstart=1, method="Ne
     return Dict("myMLEs" => optimres[argmin(theLLvals)], "allres" => allres)
 end
 
+#Function Passed Test
+
 function get_profCIall(mydata, fixpar, nstarts=10, sdstart=2, method="Nelder-Mead", thestep=0.02)
     parnames = ["psi", "theta11", "theta10", "p11", "p10", "r11"]
     npar = count(isnan.(fixpar)) # total number of parameters in the model (those not fixed)
@@ -110,7 +113,7 @@ function get_profCIall(mydata, fixpar, nstarts=10, sdstart=2, method="Nelder-Mea
                 println(parnames[ii], "=", theseq[jj])
                 fixpar2 = copy(fixpar)
                 fixpar2[ii] = theseq[jj] # fix the parameter to the corresponding value
-                m1 = fit_model(mydata, fixpar2, nstarts=nstarts, meanstarts, sdstart=sdstart, method=method)
+                m1 = fit_model(mydata, fixpar2, nstarts=nstarts, meanstarts=[], sdstart=sdstart, method=method)
                 profliks[ii, jj] = m1["myMLEs"].minimum # keep value of ll function at the maximum
             end
         end
@@ -118,6 +121,8 @@ function get_profCIall(mydata, fixpar, nstarts=10, sdstart=2, method="Nelder-Mea
     
     return Dict("profliks" => profliks, "theseq" => theseq)
 end
+
+#Function Passed Test 
 
 function plot_profCIall(profliks, theseq, mypars, fixpar, ylimZoom=true, parnames=["psi", "theta11", "theta10", "p11", "p10", "r11"])
     for ii in 1:6
@@ -139,6 +144,8 @@ function plot_profCIall(profliks, theseq, mypars, fixpar, ylimZoom=true, parname
         end
     end
 end
+
+#Function Passed Test
 
 function psicond_FPMS(mypar, mydata)
     psi, theta11, theta10, p11, p10, r11 = mypar
@@ -164,3 +171,5 @@ function psicond_FPMS(mypar, mydata)
     psicond = mynum ./ myden # Pr(Z1=1|survey data)
     println(round.(psicond, digits=3)) # print the probability for each of the sampled sites
 end
+
+#Function Passed Test
