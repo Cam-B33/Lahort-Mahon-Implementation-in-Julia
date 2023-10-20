@@ -1,3 +1,6 @@
+#I think I should divide the function into multiple files
+
+
 function loglikf_FPMS(params, mydata, fixpar)
     V = mydata[:V]
     L = mydata[:L]
